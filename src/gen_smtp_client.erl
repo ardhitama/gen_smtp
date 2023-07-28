@@ -404,6 +404,7 @@ open_smtp_session(Host, Options) ->
     Options :: options()
 ) -> binary() | [{binary(), binary()}, ...].
 try_sending_it({From, To, Body}, Socket, Extensions, Options) ->
+    {ok, _} = try_HELO(Socket, Options),
     try_MAIL_FROM(From, Socket, Extensions, Options),
     try_RCPT_TO(To, Socket, Extensions, Options),
     case proplists:get_value(protocol, Options) of
